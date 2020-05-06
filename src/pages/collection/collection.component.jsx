@@ -7,6 +7,11 @@ import { selectCollection } from "../../redux/shop/shop.selectors";
 import "./collection.styles.scss";
 
 const CollectionPage = ({ collection }) => {
+  // useEffect(() => {
+  //   return () => {
+  //     console.log("Do all unsubscribe here. This is a clean up fn");
+  //   };
+  // });
   const { title, items } = collection;
   return (
     <div className="collection-page">

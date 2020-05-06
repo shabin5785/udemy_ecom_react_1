@@ -15,4 +15,6 @@ const CartItem = ({ item: { imageUrl, price, name, quantity } }) => {
   );
 };
 
-export default CartItem;
+
+//below memo stops the component from re rendering if we add same item again. it increase quantty only
+export default React.memo(CartItem);

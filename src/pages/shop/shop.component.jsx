@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Route } from "react-router-dom";
 import CollectionPageContainer from "../collection/collection.container";
@@ -6,29 +6,25 @@ import CollectionsContainer from "../../components/collections-overview/collecti
 
 import { fetchCollectionsStart } from "../../redux/shop/shop.actions";
 
-class ShopPage extends React.Component {
-  state = {
-    loading: true
-  };
-  //react will handle constructor and super in backend if we add state propperty like this.
-
-  componentDidMount() {
-    const { fetchCollectionsStart } = this.props;
+const ShopPage = ({ fetchCollectionsStart, match }) => {
+  useEffect(() => {
     fetchCollectionsStart();
-  }
-  render() {
-    const { match } = this.props;
-    return (
-      <div className="shop-page">
-        <Route exact path={`${match.path}`} component={CollectionsContainer} />
-        <Route
-          path={`${match.path}/:collectionId`}
-          component={CollectionPageContainer}
-        />
-      </div>
-    );
-  }
-}
+  }, [fetchCollectionsStart]);
+
+  //array is needed above, cause even though state is not cahnged in this component,
+  //its parent app.js has state thats cahnged. So this component without any paramerts load check,
+  // this component will be rendered twice. Hence we pass the fn to stop this.
+
+  return (
+    <div className="shop-page">
+      <Route exact path={`${match.path}`} component={CollectionsContainer} />
+      <Route
+        path={`${match.path}/:collectionId`}
+        component={CollectionPageContainer}
+      />
+    </div>
+  );
+};
 
 const mapDispatchToProps = dispatch => ({
   fetchCollectionsStart: () => dispatch(fetchCollectionsStart())
